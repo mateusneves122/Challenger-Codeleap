@@ -22,7 +22,7 @@ from drf_spectacular.types import OpenApiTypes
             location=OpenApiParameter.HEADER,
             required=True,
             description='Bearer authentication token. Format: "Bearer &lt;seu_token&gt;"',
-            examples=[OpenApiExample(name='Example', value='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...')], # Opcional: Adicionar um exemplo
+            examples=[OpenApiExample(name='Example', value='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...')],
         )
     ],
     responses={
@@ -76,12 +76,12 @@ def create_post(request):
             location=OpenApiParameter.HEADER,
             required=True,
             description='Bearer authentication token. Format: "Bearer &lt;seu_token&gt;"',
-            examples=[OpenApiExample(name='Example', value='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...')], # Opcional: Adicionar um exemplo
+            examples=[OpenApiExample(name='Example', value='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...')],
         )
     ],
     responses={
         200: OpenApiResponse(
-            response=PostSerializer(many=True), # Indica que é uma lista de posts
+            response=PostSerializer(many=True),
             description="A list of posts by the specified user."
         ),
         400: OpenApiResponse(description="Invalid user ID format."),
@@ -120,7 +120,7 @@ def list_user_posts(request, user_id: int):
             location=OpenApiParameter.HEADER,
             required=True,
             description='Bearer authentication token. Format: "Bearer &lt;seu_token&gt;"',
-            examples=[OpenApiExample(name='Example', value='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...')], # Opcional: Adicionar um exemplo
+            examples=[OpenApiExample(name='Example', value='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...')],
         )
     ],
     tags=['Posts']
@@ -144,7 +144,7 @@ def list_user_posts(request, user_id: int):
     request=PostSerializer,
     responses={
         200: OpenApiResponse(response=PostSerializer, description="Post updated successfully."),
-        400: OpenApiResponse(description="Invalid data.", response={'type': 'object', 'properties': {'detail': {'type': 'string'}}}), # Adicione mais detalhes se tiver um serializer de erro
+        400: OpenApiResponse(description="Invalid data.", response={'type': 'object', 'properties': {'detail': {'type': 'string'}}}),
         404: OpenApiResponse(description="Post not found.", response={'type': 'object', 'properties': {'detail': {'type': 'string'}}})
     }
 )

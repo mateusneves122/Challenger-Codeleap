@@ -18,7 +18,7 @@ from drf_spectacular.types import OpenApiTypes
         201: OpenApiResponse(description="User created successfully!!", examples=[
             OpenApiExample(
                 name="Test",
-                value={"message": "User created successfully!"} # O corpo do exemplo da resposta
+                value={"message": "User created successfully!"}
             )
         ]),
         400: OpenApiResponse(description="Invalid data provided.")
