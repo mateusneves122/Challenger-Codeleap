@@ -40,6 +40,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'email', 'password', 'created_at', 'updated_at', 'deleted_at']
         read_only_fields = ['id', 'created_at', 'updated_at', 'deleted_at']
     
+    def validate_name(self, value):
+        return value.upper()
+
     def create(self, data):
         password = data.pop('password')
         data['password_hash'] = hashlib.md5(password.encode()).hexdigest()
