@@ -38,8 +38,6 @@ The project is configured to run with Docker and Docker Compose.
 
 ### Prerequisites
 
-* Docker instalado
-* Docker Compose instalado
 * Docker installed
 * Docker Compose installed
 
@@ -47,45 +45,45 @@ The project is configured to run with Docker and Docker Compose.
 
 1.  **Clone the repository** (if you haven't already):
     ```bash
-    git clone <url-do-seu-repositorio>
-    cd <nome-da-pasta-do-projeto>
+    git clone <your-repository-url>
+    cd <project-folder-name>
     ```
 
-2.  **Crie o arquivo `.env`**:
-    Na raiz do projeto (mesmo diretório do `docker-compose.yaml`), crie um arquivo chamado `.env` com as seguintes variáveis de ambiente. Substitua os valores conforme necessário:
-    Se você clonou o repositório, pode haver um arquivo `EXAMPLE.env`. Copie este arquivo para `.env` e depois altere os valores com os dados que escolheu.
+2.  **Create the `.env` file**:
+    In the project root (same directory as `docker-compose.yaml`), create a file named `.env` with the following environment variables. Replace the values as needed:
+    If you cloned the repository, there might be an `EXAMPLE.env` file. Copy this file to `.env` and then change the values with your chosen data.
     ```env
-    # Configuração do Banco de Dados
+    # Database Configuration
     DB_USER=admin
     DB_PASSWORD=admin
     DB_NAME=codeleap
     DB_HOST=db
     DB_PORT=5432
     ```
-    * `DB_HOST` deve ser `db`, que é o nome do serviço do banco de dados no `docker-compose.yaml`.
+    * `DB_HOST` should be `db`, which is the name of the database service in `docker-compose.yaml`.
 
-3.  **Construa e Inicie os Contêineres**:
-    No terminal, na raiz do projeto, execute:
+3.  **Build and Start the Containers**:
+    In the terminal, at the project root, run:
     ```bash
     docker-compose up -d --build
     ```
-    * O comando `--build` reconstrói a imagem da aplicação se houver mudanças no `Dockerfile` ou no código-fonte.
+    * The `--build` command rebuilds the application image if there are changes to the `Dockerfile` or source code.
 
-    * **Nota sobre `init_tables.sql`**: O `docker-compose.yaml` referencia um script `./scripts/init_tables.sql`. Este script já cria as tabelas, sem a necessidade de migrate.
+    * **Note about `init_tables.sql`**: The `docker-compose.yaml` references a script `./scripts/init_tables.sql`. This script already creates the tables, without the need for migrations.
 
 
-6.  **Acesse a Aplicação**:
-    A API estará disponível em `http://localhost:8000`.
-    Para acessar a documentação da API (gerada com ReDoc), visite:
+4.  **Access the Application**:
+    The API will be available at `http://localhost:8000`.
+    To access the API documentation (generated with ReDoc), visit:
     `http://localhost:8000/api/schema/redoc/`
 
-### Parando a Aplicação
+### Stopping the Application
 
-* Para remover os contêineres e a rede criada:
+* To remove the containers and the created network:
     ```bash
     docker-compose down
     ```
-* Para remover também os volumes de dados persistentes (incluindo os dados do banco de dados):
+* To also remove persistent data volumes (including database data):
     ```bash
     docker-compose down -v
     ```
