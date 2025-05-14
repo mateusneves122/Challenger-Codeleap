@@ -1,49 +1,51 @@
-# API de Rede Social Django
+# Django Social Network API
 
-Este projeto é uma API desenvolvida em Django para uma plataforma de rede social simples. Ele permite que usuários se registrem, criem posts e sigam outros usuários.
+This project is an API developed in Django for a simple social network platform. It allows users to register, create posts, and follow other users.
 
-## Modelos de Dados e Relações
-O sistema é construído em torno de três tabelas principais: `users`, `posts`, e `follows`. As relações entre elas são as seguintes:
+## Data Models and Relationships
+The system is built around three main tables: `users`, `posts`, and `follows`. The relationships between them are as follows:
 
-*   **Relação entre `users` e `posts` (Um-para-Muitos):**
-    *   Um usuário (da tabela `users`) pode criar várias postagens (registros na tabela `posts`).
-    *   Cada postagem na tabela `posts` está associada a um único usuário através de uma chave estrangeira que referencia a tabela `users`.
+*   **Relationship between `users` and `posts` (One-to-Many):**
+    *   A user (from the `users` table) can create multiple posts (records in the `posts` table).
+    *   Each post in the `posts` table is associated with a single user through a foreign key that references the `users` table.
 
-*   **Relação entre `users` e `follows` (Muitos-para-Muitos, através da tabela `follows`):**
-    *   A tabela `follows` serve como uma tabela de junção para representar quem segue quem.
-    *   Ela contém duas chaves estrangeiras que referenciam a tabela `users`: uma para o "seguidor" (`follower`) e outra para o "seguido" (`following`).
-    *   Isso permite que um usuário siga múltiplos outros usuários e também seja seguido por múltiplos usuários.
+*   **Relationship between `users` and `follows` (Many-to-Many, through the `follows` table):**
+    *   The `follows` table serves as a junction table to represent who follows whom.
+    *   It contains two foreign keys that reference the `users` table: one for the "follower" and another for the "followed" (`following`).
+    *   This allows a user to follow multiple other users and also be followed by multiple users.
 
-*Resumindo:*
-*   `users` ⟵ (um) `posts` (muitos)
-*   `users` (seguidor) ⟵ (um) `follows` (muitos) ⟶ (um) `users` (seguido)
+*In summary:*
+*   `users` ⟵ (one) `posts` (many)
+*   `users` (follower) ⟵ (one) `follows` (many) ⟶ (one) `users` (followed)
 
-## Autenticação JWT Customizada
+## Custom JWT Authentication
 
-O projeto implementa uma lógica de autenticação JWT customizada através da classe `CustomJWTAuthentication`.
+The project implements custom JWT authentication logic through the `CustomJWTAuthentication` class.
 
-Esta classe estende o comportamento padrão do `JWTAuthentication` do `rest_framework_simplejwt` para incluir uma verificação adicional: ela impede a autenticação de usuários que foram "soft-deleted" (ou seja, que possuem o campo `deleted_at` preenchido na tabela `users`). Isso garante que apenas usuários ativos possam obter tokens de acesso.
+This class extends the default behavior of `JWTAuthentication` from `rest_framework_simplejwt` to include an additional check: it prevents the authentication of users who have been "soft-deleted" (i.e., those who have the `deleted_at` field populated in the `users` table). This ensures that only active users can obtain access tokens.
 
-## Potencial de Escalabilidade
+## Scalability Potential
 
-A estrutura atual do projeto, com a separação clara de responsabilidades entre os apps (`user`, `post`, `social`, `auth`) e o modelo de relacionamento bem definido no banco de dados, facilita a expansão da API com novas funcionalidades.
+The current project structure, with a clear separation of responsibilities between apps (`user`, `post`, `social`, `auth`) and a well-defined database relationship model, facilitates the expansion of the API with new functionalities.
 
-Por exemplo, seria relativamente simples adicionar:
-*   **Comentários**: Um novo modelo `Comment` poderia ser criado, relacionando-se com `Post` (um post pode ter muitos comentários) e `User` (um usuário pode fazer muitos comentários).
-*   **Likes/Reações**: Um modelo `Like` ou `Reaction` poderia ser implementado, conectando `User` a `Post` (ou até mesmo a `Comment`), permitindo que usuários curtam ou reajam a conteúdos.
+For example, it would be relatively simple to add:
+*   **Comments**: A new `Comment` model could be created, relating to `Post` (a post can have many comments) and `User` (a user can make many comments).
+*   **Likes/Reactions**: A `Like` or `Reaction` model could be implemented, connecting `User` to `Post` (or even `Comment`), allowing users to like or react to content.
 
-## Como Executar o Projeto com Docker
+## How to Run the Project with Docker
 
-O projeto é configurado para rodar com Docker e Docker Compose.
+The project is configured to run with Docker and Docker Compose.
 
-### Pré-requisitos
+### Prerequisites
 
 * Docker instalado
 * Docker Compose instalado
+* Docker installed
+* Docker Compose installed
 
-### Passos para Execução
+### Steps to Run
 
-1.  **Clone o repositório** (se ainda não o fez):
+1.  **Clone the repository** (if you haven't already):
     ```bash
     git clone <url-do-seu-repositorio>
     cd <nome-da-pasta-do-projeto>
@@ -65,7 +67,7 @@ O projeto é configurado para rodar com Docker e Docker Compose.
 3.  **Construa e Inicie os Contêineres**:
     No terminal, na raiz do projeto, execute:
     ```bash
-    docker-compose up --build
+    docker-compose up -d --build
     ```
     * O comando `--build` reconstrói a imagem da aplicação se houver mudanças no `Dockerfile` ou no código-fonte.
 
@@ -79,7 +81,6 @@ O projeto é configurado para rodar com Docker e Docker Compose.
 
 ### Parando a Aplicação
 
-* Para parar os contêineres, pressione `Ctrl+C` no terminal onde o `docker-compose up` está rodando.
 * Para remover os contêineres e a rede criada:
     ```bash
     docker-compose down
